@@ -1,8 +1,9 @@
 package caixeiro;
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // quantidade de cidades que serão testadas.
         int limite = 10;
@@ -62,5 +63,54 @@ public class Main {
 
             System.out.println();
         }
+
+    // Método da Heuristica do Vizinho mais Proximo
+        System.out.println();
+        System.out.println(
+            "Caixeiro viajante. Metodo: Heuristica do Vizinho Mais Proximo"
+        );
+        System.out.println();
+
+        String[] arquivos = {
+            "caixeiro/si535.tsp.txt",
+            "caixeiro/pa561.tsp.txt",
+            "caixeiro/si1032.tsp.txt"
+        };
+
+        for (String arquivo : arquivos) {
+
+            System.out.println("Instancia: " + arquivo);
+
+            //carrega o grafo a partir do arquivo TSPLIB
+            GrafoInstancia grafo =
+                new GrafoInstancia(arquivo);
+
+            HeuristicaVP heuristica =
+                new HeuristicaVP(grafo);
+
+            long inicio = System.nanoTime();
+
+            heuristica.resolver();
+
+            long fim = System.nanoTime();
+
+            double tempoMs = (fim - inicio) / 1_000_000.0;
+
+            System.out.println(
+                "Numero de cidades: "
+                + grafo.getNumeroCidades()
+            );
+            System.out.println(
+                "Distancia total: "
+                + heuristica.getDistanciaTotal()
+            );
+            System.out.printf(
+                "Tempo de execucao: %.3f ms%n",
+                tempoMs
+            );
+
+            System.out.println();
+        }
+
     }
 }
