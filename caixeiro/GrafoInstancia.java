@@ -6,10 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-/**
- * Representa um grafo carregado de uma instancia TSPLIB.
- * Independente da classe Grafo usada pela força bruta.
- */
 public class GrafoInstancia {
 
     private int numeroCidades;
@@ -25,7 +21,7 @@ public class GrafoInstancia {
 
             String linha;
 
-            // Le o cabecalho ate encontrar a secao dos pesos.
+            //le o cabecalho do arquivo txt ate encontrar a secao dos pesos
             while ((linha = leitor.readLine()) != null) {
 
                 linha = linha.trim();
@@ -78,9 +74,7 @@ public class GrafoInstancia {
 
             distancias = new int[numeroCidades][numeroCidades];
 
-            // Le os pesos sem interpretar linhas como linhas da matriz.
-            // O Scanner separa os numeros por qualquer espaco ou quebra
-            // de linha. Paramos antes de ler secoes posteriores.
+            //o Scanner separa os numeros por qualquer espaco ou quebra de linha. Paramos antes de ler secoes que vierem depois
             try (Scanner pesos = new Scanner(leitor)) {
 
                 for (int i = 0; i < numeroCidades; i++) {
@@ -99,7 +93,7 @@ public class GrafoInstancia {
 
                         int distancia = pesos.nextInt();
 
-                        // Preenche os dois sentidos da distancia.
+                        //preenche os dois sentidos da distancia
                         distancias[i][j] = distancia;
                         distancias[j][i] = distancia;
                     }
