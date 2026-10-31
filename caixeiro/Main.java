@@ -1,5 +1,6 @@
 package caixeiro;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
@@ -112,5 +113,50 @@ public class Main {
             System.out.println();
         }
 
+        // Método de Aproximação baseada na Árvore Geradora Mínima
+        System.out.println();
+        System.out.println(
+                "Caixeiro viajante. Metodo: Aproximacao por Arvore Geradora Minima (2-aprox)"
+        );
+        System.out.println();
+
+        for (String arquivo : arquivos) {
+            System.out.println("Instancia: " + arquivo);
+            GrafoInstancia grafo = new GrafoInstancia(arquivo);
+            AproximacaoArvore aproximacao = new AproximacaoArvore(grafo.getDistancias());
+            long inicio = System.nanoTime();
+            AproximacaoArvore.Resultado resultado = aproximacao.resolver();
+            long fim = System.nanoTime();
+            double tempoMs = (fim - inicio) / 1_000_000.0;
+            System.out.println(
+                    "Numero de cidades: "
+                            + grafo.getNumeroCidades()
+            );
+            System.out.println(
+                    "Distancia total (Aproximacao): "
+                            + resultado.custo
+            );
+            System.out.printf(
+                    "Tempo de execucao: %.3f ms%n",
+                    tempoMs
+            );
+
+            System.out.println("Rota completa:");
+            int[] tour = resultado.tour;
+
+            for (int i = 0; i < tour.length; i++) {
+                System.out.print(tour[i]);
+
+                if (i < tour.length - 1) {
+                    System.out.print(" -> ");
+                }
+                if ((i + 1) % 20 == 0) {
+                    System.out.println();
+                }
+            }
+
+            System.out.println(" -> " + tour[0]);
+            System.out.println();
+        }
     }
 }
